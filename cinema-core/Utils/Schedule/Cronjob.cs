@@ -47,11 +47,9 @@ namespace cinema_core.Utils.Schedule
 
         private void Process()
         {
-            var promotionRepository = _service.CreateScope().ServiceProvider.GetRequiredService<IPromotionRepository>();
             var showtimeRepository = _service.CreateScope().ServiceProvider.GetRequiredService<IShowtimeRepository>();
             System.Diagnostics.Debug.WriteLine("Update at... "+DateTime.Now.ToString("F"));
             showtimeRepository.AutoUpdateShowtime();
-            promotionRepository.AutoUpdatePromotion();
         }
     }
 }

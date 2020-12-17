@@ -23,16 +23,14 @@ namespace cinema_core.Controllers
         private IMovieRepository movieRepository;
         private IScreenTypeRepository screenTypeRepository;
         private IRoomRepository roomRepository;
-        private ITicketRepository ticketRepository;
 
         public ShowtimesController(IShowtimeRepository showtimeRepository, IMovieRepository movieRepository,
-                IScreenTypeRepository screenTypeRepository, IRoomRepository roomRepository, ITicketRepository ticket)
+                IScreenTypeRepository screenTypeRepository, IRoomRepository roomRepository)
         {
             this.showtimeRepository = showtimeRepository;
             this.movieRepository = movieRepository;
             this.screenTypeRepository = screenTypeRepository;
             this.roomRepository = roomRepository;
-            this.ticketRepository = ticket;
         }
 
         //GET: api/showtimes
@@ -46,21 +44,7 @@ namespace cinema_core.Controllers
             }
 
             ICollection<ShowtimeDTO> showtimes;
-            if (cluster != -1)
-            {
-                if (movie != -1)
-                {
-                    showtimes = showtimeRepository.GetShowtimesByClusterIdAndMovieId(cluster, movie);
-                }
-                else
-                {
-                    showtimes = showtimeRepository.GetShowtimesByClusterId(cluster);
-                }
-            }
-            else
-            {
                 showtimes = showtimeRepository.GetAllShowtimes(skip, limit);
-            }
             return Ok(showtimes);
         }
 
@@ -74,13 +58,8 @@ namespace cinema_core.Controllers
                 return NotFound();
             }
             var showtimeDTO = new ShowtimeDTO(showtime);
-            var tickets = ticketRepository.GetAllTicketsByShowtimeId(id);
 
             List<string> seats = new List<string>();
-            foreach(var ticket in tickets)
-            {
-                seats.Add(ticket.Seat);
-            }
             return Ok(new { showtime = showtimeDTO,seats = seats});
         }
 

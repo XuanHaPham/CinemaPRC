@@ -12,10 +12,6 @@ namespace cinema_core.Repositories
     {
         ICollection<ShowtimeDTO> GetAllShowtimes(int skip, int limit);
 
-        ICollection<ShowtimeDTO> GetShowtimesByClusterId(int clusterId);
-
-        ICollection<ShowtimeDTO> GetShowtimesByClusterIdAndMovieId(int clusterId, int movieId);
-
         ICollection<ShowtimeDTO> GetShowtimesByRoomId(int roomId);
         Showtime GetShowtimeById(int id);
 

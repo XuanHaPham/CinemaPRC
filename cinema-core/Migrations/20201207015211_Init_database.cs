@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace cinema_core.Migrations
 {
-    public partial class init : Migration
+    public partial class Init_database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

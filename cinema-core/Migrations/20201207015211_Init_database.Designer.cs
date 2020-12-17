@@ -10,8 +10,8 @@ using cinema_core.Models.Base;
 namespace cinema_core.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20200719153402_iit")]
-    partial class iit
+    [Migration("20201207015211_Init_database")]
+    partial class Init_database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

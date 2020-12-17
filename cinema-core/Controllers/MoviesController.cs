@@ -21,16 +21,11 @@ namespace cinema_core.Controllers
     {
         private IMovieRepository movieRepository;
         private IScreenTypeRepository screenTypeRepository;
-        private IRateRepository rateRepository;
-        private IGenreRepository genreRepository;
 
-        public MoviesController(IMovieRepository repository,IScreenTypeRepository screenTypeRepository, 
-            IRateRepository rateRepository,IGenreRepository genreRepository)
+        public MoviesController(IMovieRepository repository,IScreenTypeRepository screenTypeRepository)
         {
             this.screenTypeRepository = screenTypeRepository;
             this.movieRepository = repository;
-            this.rateRepository = rateRepository;
-            this.genreRepository = genreRepository;
         }
 
         // GET: api/movies/now-on

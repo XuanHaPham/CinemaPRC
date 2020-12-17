@@ -24,8 +24,7 @@ namespace cinema_core.Repositories.Implements
         {
             var room = new Room();
             Coppier<RoomRequest, Room>.Copy(roomRequest, room);
-            room.Cluster = dbContext.Clusters.Where(c => c.Id == roomRequest.ClusterId).FirstOrDefault();
-            var screenTypes = dbContext.ScreenTypes.Where(s => roomRequest.ScreenTypeIds.Contains(s.Id)).ToList();
+           var screenTypes = dbContext.ScreenTypes.Where(s => roomRequest.ScreenTypeIds.Contains(s.Id)).ToList();
             foreach (var screen in screenTypes)
             {
                 var roomScreenType = new RoomScreenType()
@@ -52,36 +51,10 @@ namespace cinema_core.Repositories.Implements
             List<RoomDTO> results = new List<RoomDTO>();
             List<Room> rooms = new List<Room>();
 
-            var cluster = dbContext.Clusters.Where(c => c.Id == clusterId).FirstOrDefault();
-            rooms = dbContext.Rooms
-                                .Include(rs => rs.RoomScreenTypes).ThenInclude(s => s.ScreenType)
-                                .Include(c => c.Cluster)
-                                .OrderBy(r => r.Id).Skip(skip).Take(limit).ToList();
-            if (cluster!=null)
-            {
-                rooms = rooms.Where(r => r.ClusterId == clusterId).ToList();
-            }
             foreach (Room room in rooms)
             {
                 //System.Diagnostics.Debug.WriteLine();
                 results.Add(new RoomDTO(room));
-            }
-            return results;
-        }
-
-        public ICollection<RoomDTO> GetRoomsByClusterId(int clusterId)
-        {
-            List<RoomDTO> results = new List<RoomDTO>();
-            var cluster = dbContext.Clusters
-                                .Where(c => c.Id == clusterId)
-                                .Include(c => c.Rooms).ThenInclude(r => r.RoomScreenTypes).ThenInclude(s => s.ScreenType)
-                                .FirstOrDefault();
-            if (cluster != null)
-            {
-                foreach (Room room in cluster.Rooms)
-                {
-                    results.Add(new RoomDTO(room));
-                }
             }
             return results;
         }
@@ -91,7 +64,6 @@ namespace cinema_core.Repositories.Implements
             var room = dbContext.Rooms
                             .Where(r => r.Id == id)
                             .Include(rs => rs.RoomScreenTypes).ThenInclude(s => s.ScreenType)
-                            .Include(c => c.Cluster)
                             .FirstOrDefault();
             return room;
         }
@@ -111,8 +83,6 @@ namespace cinema_core.Repositories.Implements
                 dbContext.RemoveRange(screenTypesIsDelete);
 
             Coppier<RoomRequest, Room>.Copy(roomRequest, room);
-
-            room.Cluster = dbContext.Clusters.Where(c => c.Id == roomRequest.ClusterId).FirstOrDefault();
 
             var screenTypes = dbContext.ScreenTypes.Where(s => roomRequest.ScreenTypeIds.Contains(s.Id)).ToList();
             foreach (var screen in screenTypes)

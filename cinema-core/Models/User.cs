@@ -30,8 +30,5 @@ namespace cinema_core.Models
         public string Password { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; }
-
-        //public virtual Cluster Cluster { get; set; }
-        public ClusterUser ClusterUser { get; set; }
     }
 }

@@ -52,19 +52,6 @@ namespace cinema_core.Utils.MovieProxy
                 movie.Actors.Add(actor);
             }
 
-            list = json["Genre"];
-            List<string> genres = list.Split(", ").ToList();
-            movie.Genres = new List<Genre>();
-            foreach (var name in genres)
-            {
-                Genre genre = new Genre()
-                {
-                    Name = name,
-                    Description = "",
-                };
-                movie.Genres.Add(genre);
-            }
-
             return movie;
         }
     }

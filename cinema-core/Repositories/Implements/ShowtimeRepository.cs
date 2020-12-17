@@ -28,67 +28,11 @@ namespace cinema_core.Repositories.Implements
             List<Showtime> showtimes = new List<Showtime>();
             showtimes = dbContext.Showtime
                                             .Include(m => m.Movie)
-                                            .Include(r => r.Room).ThenInclude(c=>c.Cluster)
+                                            .Include(r => r.Room)
                                             .Include(st => st.ScreenType)
                                             .OrderBy(c => c.Id).Skip(skip).Take(limit)
                                             .ToList();
 
-            foreach (Showtime showtime in showtimes)
-            {
-                results.Add(new ShowtimeDTO(showtime));
-            }
-            return results;
-        }
-
-        public ICollection<ShowtimeDTO> GetShowtimesByClusterId(int clusterId)
-        {
-            List<ShowtimeDTO> results = new List<ShowtimeDTO>();
-            var cluster = dbContext.Clusters
-                                .Where(c => c.Id == clusterId)
-                                .Include(c => c.Rooms)
-                                .FirstOrDefault();
-            List<int> roomIds = new List<int>();
-            if (cluster != null)
-            {
-                foreach (Room room in cluster.Rooms)
-                {
-                    roomIds.Add(room.Id);
-                }
-            }
-            var showtimes = dbContext.Showtime
-                                .Where(s => roomIds.Contains(s.RoomId))
-                                .Include(m => m.Movie)
-                                .Include(r => r.Room)
-                                .Include(st => st.ScreenType)
-                                .ToList();
-            foreach (Showtime showtime in showtimes)
-            {
-                results.Add(new ShowtimeDTO(showtime));
-            }
-            return results;
-        }
-
-        public ICollection<ShowtimeDTO> GetShowtimesByClusterIdAndMovieId(int clusterId, int movieId)
-        {
-            List<ShowtimeDTO> results = new List<ShowtimeDTO>();
-            var cluster = dbContext.Clusters
-                                .Where(c => c.Id == clusterId)
-                                .Include(c => c.Rooms)
-                                .FirstOrDefault();
-            List<int> roomIds = new List<int>();
-            if (cluster != null)
-            {
-                foreach (Room room in cluster.Rooms)
-                {
-                    roomIds.Add(room.Id);
-                }
-            }
-            var showtimes = dbContext.Showtime
-                                .Where(s => roomIds.Contains(s.RoomId) && s.MovieId == movieId)
-                                .Include(m => m.Movie)
-                                .Include(r => r.Room)
-                                .Include(st => st.ScreenType)
-                                .ToList();
             foreach (Showtime showtime in showtimes)
             {
                 results.Add(new ShowtimeDTO(showtime));
