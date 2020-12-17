@@ -10,8 +10,8 @@ using cinema_core.Models.Base;
 namespace cinema_core.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20201207015211_Init_database")]
-    partial class Init_database
+    [Migration("20201217085934_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,61 +39,6 @@ namespace cinema_core.Migrations
                     b.ToTable("Actors");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.Cluster", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clusters");
-                });
-
-            modelBuilder.Entity("cinema_core.Models.ClusterUser", b =>
-                {
-                    b.Property<int>("ClusterId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClusterId", "UserId");
-
-                    b.HasIndex("ClusterId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("ClusterUsers");
-                });
-
-            modelBuilder.Entity("cinema_core.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genres");
-                });
-
             modelBuilder.Entity("cinema_core.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -119,9 +64,6 @@ namespace cinema_core.Migrations
                     b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RateId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("ReleasedAt")
                         .HasColumnType("datetime2");
 
@@ -142,8 +84,6 @@ namespace cinema_core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RateId");
-
                     b.ToTable("Movies");
                 });
 
@@ -162,21 +102,6 @@ namespace cinema_core.Migrations
                     b.ToTable("MovieActors");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.MovieGenre", b =>
-                {
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MovieId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("MovieGenres");
-                });
-
             modelBuilder.Entity("cinema_core.Models.MovieScreenType", b =>
                 {
                     b.Property<int>("MovieId")
@@ -190,50 +115,6 @@ namespace cinema_core.Migrations
                     b.HasIndex("ScreenTypeId");
 
                     b.ToTable("MovieScreenTypes");
-                });
-
-            modelBuilder.Entity("cinema_core.Models.Promotion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("DiscountAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("ExpiredDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Promotions");
-                });
-
-            modelBuilder.Entity("cinema_core.Models.Rate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("MinAge")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Rates");
                 });
 
             modelBuilder.Entity("cinema_core.Models.Role", b =>
@@ -260,9 +141,6 @@ namespace cinema_core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClusterId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -273,8 +151,6 @@ namespace cinema_core.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClusterId");
 
                     b.ToTable("Rooms");
                 });
@@ -348,43 +224,6 @@ namespace cinema_core.Migrations
                     b.ToTable("Showtime");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.Ticket", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("PromotionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Seat")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ShowtimeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TicketType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PromotionId");
-
-                    b.HasIndex("ShowtimeId");
-
-                    b.ToTable("Tickets");
-                });
-
             modelBuilder.Entity("cinema_core.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -431,29 +270,6 @@ namespace cinema_core.Migrations
                     b.ToTable("UserRole");
                 });
 
-            modelBuilder.Entity("cinema_core.Models.ClusterUser", b =>
-                {
-                    b.HasOne("cinema_core.Models.Cluster", "Cluster")
-                        .WithOne("ClusterUser")
-                        .HasForeignKey("cinema_core.Models.ClusterUser", "ClusterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("cinema_core.Models.User", "User")
-                        .WithOne("ClusterUser")
-                        .HasForeignKey("cinema_core.Models.ClusterUser", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("cinema_core.Models.Movie", b =>
-                {
-                    b.HasOne("cinema_core.Models.Rate", "Rate")
-                        .WithMany("Movies")
-                        .HasForeignKey("RateId")
-                        .OnDelete(DeleteBehavior.SetNull);
-                });
-
             modelBuilder.Entity("cinema_core.Models.MovieActor", b =>
                 {
                     b.HasOne("cinema_core.Models.Actor", "Actor")
@@ -464,21 +280,6 @@ namespace cinema_core.Migrations
 
                     b.HasOne("cinema_core.Models.Movie", "Movie")
                         .WithMany("MovieActors")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("cinema_core.Models.MovieGenre", b =>
-                {
-                    b.HasOne("cinema_core.Models.Genre", "Genre")
-                        .WithMany("MovieGenres")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("cinema_core.Models.Movie", "Movie")
-                        .WithMany("MovieGenres")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -495,15 +296,6 @@ namespace cinema_core.Migrations
                     b.HasOne("cinema_core.Models.ScreenType", "ScreenType")
                         .WithMany("MovieScreenTypes")
                         .HasForeignKey("ScreenTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("cinema_core.Models.Room", b =>
-                {
-                    b.HasOne("cinema_core.Models.Cluster", "Cluster")
-                        .WithMany("Rooms")
-                        .HasForeignKey("ClusterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -540,19 +332,6 @@ namespace cinema_core.Migrations
                     b.HasOne("cinema_core.Models.ScreenType", "ScreenType")
                         .WithMany("Showtimes")
                         .HasForeignKey("ScreenTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("cinema_core.Models.Ticket", b =>
-                {
-                    b.HasOne("cinema_core.Models.Promotion", "Promotion")
-                        .WithMany("Tickets")
-                        .HasForeignKey("PromotionId");
-
-                    b.HasOne("cinema_core.Models.Showtime", "Showtime")
-                        .WithMany("Tickets")
-                        .HasForeignKey("ShowtimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

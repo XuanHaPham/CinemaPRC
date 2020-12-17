@@ -1,6 +1,4 @@
-import { Genre } from "./genre";
 import { ScreenType } from "./screenType";
-import { Rate } from "./rate";
 
 export interface Actor {
   name: string,
@@ -11,7 +9,6 @@ export interface Movie {
   id: string,
   title: string,
   storyline: string, //
-  genres: Genre[],
   screenTypes: ScreenType[],
   directors: string[],
   actors: Actor[],
@@ -22,7 +19,6 @@ export interface Movie {
   poster: string,
   trailer: string, //
   wallpapers: string[], //
-  rate: Rate,
 }
 
 export interface MovieInsertInput {
@@ -30,7 +26,6 @@ export interface MovieInsertInput {
   // actors: Actor[],
   endAt: string,
   screenTypeIds: string[],
-  rateId: number,
 }
 
 export interface MovieInsertValidation {
@@ -48,12 +43,10 @@ export interface MovieUpdateInput {
   poster: string,
   trailer: string, //
   wallpapers: string[], //
-  rateId: number,
   screenTypeIds: string[],
 }
 
 export interface MovieUpdateValidation {
 	title: string,
 	screenTypes: string,
-  rate: string,
 }

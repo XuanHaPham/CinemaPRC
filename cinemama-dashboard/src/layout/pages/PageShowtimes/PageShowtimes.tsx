@@ -2,7 +2,6 @@ import React, { useEffect, useState, FunctionComponent } from 'react';
 
 // Misc
 import * as showtimeAPI from '../../../api/showtimeAPI';
-import * as clusterAPI from '../../../api/clusterAPI';
 import * as movieAPI from '../../../api/movieAPI';
 import * as roomAPI from '../../../api/roomAPI';
 import * as screenTypeAPI from '../../../api/screenTypeAPI';
@@ -24,7 +23,6 @@ import Select from '@material-ui/core/Select';
 // Custom Component
 import DialogAddOrEditShowtime from './components/DialogAddOrEditShowtime';
 import DialogYesNo from '../../../components/DialogYesNo';
-import { Cluster } from '../../../interfaces/cluster';
 
 // Class
 // import classes from './PageShowtimes.module.scss';
@@ -32,7 +30,6 @@ import { Cluster } from '../../../interfaces/cluster';
 const PageShowtimes: FunctionComponent = () => {
   const [showtimes, setShowtimes] = useState<Array<Showtime>>([]);
   const [selectedClusterId, setSelectedClusterId] = useState<string>('');
-  const [clusterList, setClusterList] = useState<Array<Cluster>>([]); // Naming convention: use abcList for non-primary array
   const [movieList, setMovieList] = useState<Array<Movie>>([]);
   const [roomList, setRoomList] = useState<Array<Room>>([]);
   const [screenTypeList, setScreenTypeList] = useState<Array<ScreenType>>([]);
@@ -101,18 +98,10 @@ const PageShowtimes: FunctionComponent = () => {
 
   useEffect(() => {
     // getAllShowtimes();
-    getClusterList();
     getMovieList();
     // getRoomList();
     getScreenTypeList();
   }, []);
-  
-  useEffect(() => {
-    if (clusterList.length > 0) {
-      setSelectedClusterId(clusterList[0].id);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clusterList]);
 
   useEffect(() => {
     if (selectedClusterId !== '') {
@@ -144,18 +133,6 @@ const PageShowtimes: FunctionComponent = () => {
       })
       .catch(err => {
         setIsTableLoading(false);
-        console.log(err);
-      })
-  }
-  
-  const getClusterList = () => {
-    setIsTableLoading(true);
-    clusterAPI.getAllClusters()
-      .then(response => {
-        setIsTableLoading(false);
-        setClusterList(response.data);
-      })
-      .catch(err => {
         console.log(err);
       })
   }
@@ -270,16 +247,6 @@ const PageShowtimes: FunctionComponent = () => {
 
                 <div style={{display: 'flex', alignItems: 'center', paddingLeft: '24px', marginBottom: '12px'}}>
                   <div style={{marginRight: '10px', fontWeight: 'bold', fontSize: '16px', color: '#333'}}>Cluster:</div>
-                  <Select
-                    labelId="cluster-select-label"
-                    value={selectedClusterId}
-                    variant="outlined"
-                    onChange={(event: any) => {setSelectedClusterId(event.target.value as string)}}
-                  >
-                    {clusterList.map(cluster => (
-                      <MenuItem key={cluster.id} value={cluster.id}>{cluster.name}</MenuItem>
-                    ))}
-                  </Select>
                 </div>
               </div>
             )
@@ -289,8 +256,6 @@ const PageShowtimes: FunctionComponent = () => {
 
       <DialogAddOrEditShowtime
         showtimeToEdit={showtimeToEdit}
-        clusterList={clusterList}
-        selectedClusterId={selectedClusterId}
         movieList={movieList}
         roomList={roomList}
         screenTypeList={screenTypeList}

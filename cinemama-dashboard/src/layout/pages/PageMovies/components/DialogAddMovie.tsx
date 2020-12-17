@@ -27,18 +27,16 @@ import TextField from '@material-ui/core/TextField';
 // Custom Component
 import CheckboxGroup from '../../../../components/CheckboxGroup';
 import { FormControl, Select, MenuItem } from '@material-ui/core';
-import { Rate } from '../../../../interfaces/rate';
 
 interface IDialogAddMovieProps {
   isOpen: boolean,
   screenTypeList: ScreenType[],
-  rateList: Rate[],
   onClose: Function, // Call this to close Dialog
   onSave: Function, // Call this to close Dialog & refresh table
 }
 
 const DialogAddMovie: FunctionComponent<IDialogAddMovieProps> = (props) => {
-  const [movieInput, setMovieInput] = useState<MovieInsertInput>({ imdb: '', endAt: moment().add(1, 'hour').startOf('hour').toISOString(), screenTypeIds: [], rateId: -1 });
+  const [movieInput, setMovieInput] = useState<MovieInsertInput>({ imdb: '', endAt: moment().add(1, 'hour').startOf('hour').toISOString(), screenTypeIds: []});
   const [isLoadingSave, setIsLoadingSave] = useState(false);
   const [errors, setErrors] = useState<MovieInsertValidation>({ imdb: '', screenTypes: '', rate: '' });
   const [requestError, setRequestError] = useState('');
@@ -47,7 +45,7 @@ const DialogAddMovie: FunctionComponent<IDialogAddMovieProps> = (props) => {
   console.log(moment().add(1, 'hour').startOf('hour'));
 
   const onDialogEnter = () => {
-	setMovieInput({ imdb: '', endAt: moment().add(1, 'hour').startOf('hour').toISOString(), screenTypeIds: [], rateId: -1 });
+	setMovieInput({ imdb: '', endAt: moment().add(1, 'hour').startOf('hour').toISOString(), screenTypeIds: []});
 	setErrors({ imdb: '', screenTypes: '', rate: '' });
 	setRequestError('');
   }
@@ -66,10 +64,6 @@ const validateInput = () : boolean => {
 	if (!(movieInput.screenTypeIds.length > 0)) {
 		validationResult.screenTypes = Constants.ERROR_MSG_FIELD_REQUIRED;
 		isOK = false;
-  }
-  if (movieInput.rateId === -1) {
-    validationResult.rate = Constants.ERROR_MSG_FIELD_REQUIRED;
-    isOK = false;
   }
 	setErrors({ ...validationResult });
 	return isOK;
@@ -142,25 +136,6 @@ const validateInput = () : boolean => {
 			onChange={(event) => {setMovieInput({...movieInput, imdb: event.target.value })}}
         />
         {renderScreenTypeCheckboxes()}
-        <FormControl style={{ margin: 10, marginBottom: 20, }} fullWidth>
-          {/* <InputLabel id="rate-select-label">Rate</InputLabel> */}
-          <FormLabel style={{ color: errors.rate.length > 0 ? "red" : "rgba(0, 0, 0, 0.54)" }}>Rate:</FormLabel>
-          <Select
-            labelId="rate-select-label"
-            value={movieInput.rateId}
-            variant="outlined"
-            style={{ marginTop: 5, }}
-            onChange={(event) => {setMovieInput({...movieInput, rateId: event.target.value as number})}}
-          >
-            {props.rateList.map(rate => (
-              <MenuItem key={rate.id} value={rate.id}>{rate.name}</MenuItem>
-            ))}
-          </Select>
-          {
-            errors.rate.length > 0 &&
-            <div style={{ color: "red", fontSize: "0.75rem", fontWeight: 400 }}>{errors.rate}</div>
-          }
-        </FormControl>
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <DatePicker
             required

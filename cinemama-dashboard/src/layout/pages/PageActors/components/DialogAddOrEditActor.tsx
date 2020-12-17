@@ -25,18 +25,18 @@ interface IDialogAddOrEditActorProps {
 }
 
 const DialogAddOrEditActor: FunctionComponent<IDialogAddOrEditActorProps> = (props) => {
-  const [actorInput, setActorInput] = useState<ActorInput>({ name: '', avatar: '' });
+  const [actorInput, setActorInput] = useState<ActorInput>({ name: ''});
   const [isLoadingSave, setIsLoadingSave] = useState(false);
-  const [errors, setErrors] = useState<ActorValidation>({ name: '', avatar: '' });
+  const [errors, setErrors] = useState<ActorValidation>({ name: ''});
   const [requestError, setRequestError] = useState('');
 
   const onDialogEnter = () => {
     if (!props.actorToEdit) {
-      setActorInput({ name: '', avatar: '' });
+      setActorInput({ name: ''});
     } else {
-      setActorInput({ name: props.actorToEdit.name, avatar: props.actorToEdit.avatar });
+      setActorInput({ name: props.actorToEdit.name});
 	}
-	setErrors({ name: '', avatar: '' });
+	setErrors({ name: ''});
 	setRequestError('');
   }
 
@@ -45,7 +45,7 @@ const DialogAddOrEditActor: FunctionComponent<IDialogAddOrEditActorProps> = (pro
   }
 
   const validateInput = () : boolean => {
-	let validationResult: ActorValidation = { name: '', avatar: '' };
+	let validationResult: ActorValidation = { name: ''};
 	let isOK = true;
 	if (actorInput.name.length === 0) {
 		validationResult.name = Constants.ERROR_MSG_FIELD_REQUIRED;
@@ -117,23 +117,6 @@ const DialogAddOrEditActor: FunctionComponent<IDialogAddOrEditActorProps> = (pro
 					value={actorInput.name}
 					onChange={(event) => {setActorInput({...actorInput, name: event.target.value })}}
         />
-        <TextField
-					error={errors.avatar.length > 0}
-					helperText={errors.avatar}
-					id="outlined-full-width"
-					label="Avatar"
-					style={{ margin: 8 }}
-					placeholder="https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg"
-					fullWidth
-					margin="normal"
-					InputLabelProps={{ shrink: true, }}
-					variant="outlined"
-					value={actorInput.avatar}
-					onChange={(event) => {setActorInput({...actorInput, avatar: event.target.value })}}
-        />
-				<div style={{ display: 'flex', justifyContent: 'center' }}>
-					<img src={actorInput.avatar ? actorInput.avatar : 'https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg'} style={{ width: 200, height: 200, objectFit: 'cover', borderRadius: '50%' }} />
-				</div>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onDialogClose()} color="primary">

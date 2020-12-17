@@ -2,12 +2,10 @@ import React, { useEffect, useState, FunctionComponent } from 'react';
 
 // Misc
 import * as movieAPI from '../../../api/movieAPI';
-import * as rateAPI from '../../../api/rateAPI';
 import * as screenTypeAPI from '../../../api/screenTypeAPI';
 
 // Interface
 import { Movie } from '../../../interfaces/movie';
-import { Rate } from '../../../interfaces/rate';
 import { ScreenType } from '../../../interfaces/screenType';
 
 // Component
@@ -26,8 +24,7 @@ import moment from 'moment';
 
 const PageMovies: FunctionComponent = () => {
   const [movies, setMovies] = useState<Array<Movie>>([]);
-  const [screenTypeList, setScreenTypeList] = useState<Array<ScreenType>>([]); // Naming convention: use abcList for non-primary array 
-  const [rateList, setRateList] = useState<Array<Rate>>([]);
+  const [screenTypeList, setScreenTypeList] = useState<Array<ScreenType>>([]); // Naming convention: use abcList for non-primary array
   const [isTableLoading, setIsTableLoading] = useState(false);
   // Add Dialog
   const [isDialogAddOpen, setIsDialogAddOpen] = useState(false);
@@ -42,14 +39,6 @@ const PageMovies: FunctionComponent = () => {
   const columns: Array<Column<Movie>> = [
     // { title: 'Id', field: 'id', editable: 'never', cellStyle: {width: '300px'} },
     { title: 'Title', field: 'title', cellStyle: {width: '300px'} },
-    {
-      title: 'Genres',
-      field: 'genres',
-      render: (rowData) => {
-        const genresDisplay = rowData.genres.map(genre => genre.name).join(', ');
-        return (<span>{genresDisplay}</span>)
-      }
-    },
     {
       title: 'Screen types',
       field: 'screenTypes',
@@ -100,18 +89,10 @@ const PageMovies: FunctionComponent = () => {
         return (<span><img src={rowData.poster} alt={rowData.title} style={{height: 150, width: 'auto'}} /></span>)
       }
     },
-    {
-      title: 'Rated',
-      field: 'rate',
-      render: (rowData) => {
-        return (<span>{rowData.rate ? rowData.rate.name : ''}</span>)
-      }
-    },
   ]
 
   useEffect(() => {
     getAllMovies();
-    getRateList();
     getScreenTypeList();
   }, []);
 
@@ -132,16 +113,6 @@ const PageMovies: FunctionComponent = () => {
     screenTypeAPI.getAllScreenTypes()
       .then(response => {
         setScreenTypeList(response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-  
-  const getRateList = () => {
-    rateAPI.getAllRates()
-      .then(response => {
-        setRateList(response.data);
       })
       .catch(err => {
         console.log(err);
@@ -216,7 +187,6 @@ const PageMovies: FunctionComponent = () => {
 
       <DialogAddMovie
         isOpen={isDialogAddOpen}
-        rateList={rateList}
         screenTypeList={screenTypeList}
         onClose={() => {
           setIsDialogAddOpen(false);
@@ -243,7 +213,6 @@ const PageMovies: FunctionComponent = () => {
       <DialogEditMovie
         isOpen={isDialogEditOpen}
         movieToEdit={movieToEdit}
-        rateList={rateList}
         screenTypeList={screenTypeList}
         onClose={() => {
           setIsDialogEditOpen(false);

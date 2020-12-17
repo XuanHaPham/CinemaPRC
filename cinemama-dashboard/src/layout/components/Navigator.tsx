@@ -36,25 +36,14 @@ const categories = [
   {
     id: 'Theater',
     children: [
-      { id: 'Clusters', icon: <IconMeetingRoom />, path: '/clusters', requiredRoles: ['Admin'] },
-      { id: 'Genres', icon: <IconList />, path: '/genres', requiredRoles: ['Admin'] },
       { id: 'Screen Types', icon: <IconAspectRatio />, path: '/screen-types', requiredRoles: ['Admin'] },
-      { id: 'Rates', icon: <IconRate />, path: '/rates', requiredRoles: ['Admin'] },
       { id: 'Movies', icon: <IconMovie />, path: '/movies', requiredRoles: ['Admin'] },
       { id: 'Actors', icon: <IconPeople />, path: '/actors', requiredRoles: ['Admin'] },
       { id: 'Rooms', icon: <IconMeetingRoom />, path: '/rooms', requiredRoles: ['Admin'] },
       { id: 'Showtimes', icon: <IconMovie />, path: '/showtimes', requiredRoles: ['Admin', 'Staff'] },
-      { id: 'Promotions', icon: <IconDiscount />, path: '/discounts', requiredRoles: ['Admin'] },
-      { id: 'Report', icon: <IconReport />, path: '/report', requiredRoles: ['Admin'] },
       { id: 'Users', icon: <IconPeople />, path: '/users', requiredRoles: ['Admin'] },
     ],
   },
-  // {
-  //   id: 'User',
-  //   children: [
-  //     { id: 'Roles', icon: <IconPeople />, path: '/users', requiredRoles: ['Admin'] },
-  //   ],
-  // },
 ];
 
 const styles = (theme: Theme) =>
@@ -106,13 +95,6 @@ const Navigator: FunctionComponent<NavigatorProps> = (props) => {
   const { authContext } = useAuth();
 
   const renderNavItems = () => {
-    // const routeToDisplay = categories.filter(category => {
-    //   if (category.requiredRoles.length <= 0) {
-    //     return true;
-    //   }
-
-    //   return authContext.roles.some(userRole => props.requiredRoles.indexOf(userRole));
-    // })
 
     return categories.map(({ id, children }) => (
       <React.Fragment key={id}>
@@ -163,7 +145,7 @@ const Navigator: FunctionComponent<NavigatorProps> = (props) => {
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
         <ListItem className={clsx(classes.firebase, classes.item, classes.itemCategory)}>
-          Cinex
+          Cinema
         </ListItem>
         <ListItem className={clsx(classes.item, classes.itemCategory)}>
           <ListItemIcon className={classes.itemIcon}>
@@ -174,40 +156,9 @@ const Navigator: FunctionComponent<NavigatorProps> = (props) => {
               primary: classes.itemPrimary,
             }}
           >
-            Cinex NYC
+            Cinema
           </ListItemText>
         </ListItem>
-        {/* {categories.map(({ id, children }) => (
-          <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
-              <ListItemText
-                classes={{
-                  primary: classes.categoryHeaderPrimary,
-                }}
-              >
-                {id}
-              </ListItemText>
-            </ListItem>
-            {children.map(({ id: childId, icon, path }) => (
-              <ListItem
-                key={childId}
-                button
-                component={NavLink} to={path} activeClassName={classes.itemActiveItem} exact={true}
-                className={classes.item}
-              >
-                <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
-                <ListItemText
-                  classes={{
-                    primary: classes.itemPrimary,
-                  }}
-                >
-                  {childId}
-                </ListItemText>
-              </ListItem>
-            ))}
-            <Divider className={classes.divider} />
-          </React.Fragment>
-        ))} */}
         {renderNavItems()}
       </List>
     </Drawer>

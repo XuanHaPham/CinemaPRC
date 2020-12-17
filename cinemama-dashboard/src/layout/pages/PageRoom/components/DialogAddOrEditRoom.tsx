@@ -6,7 +6,6 @@ import * as Constants from '../../../../utils/constants';
 
 // Interface
 import { Room, RoomInput, RoomValidation } from '../../../../interfaces/room';
-import { Cluster } from '../../../../interfaces/cluster';
 import { ScreenType } from '../../../../interfaces/screenType';
 
 // Component
@@ -30,26 +29,23 @@ import CheckboxGroup from '../../../../components/CheckboxGroup';
 interface IDialogAddOrEditRoomProps {
   roomToEdit: Room | null, // null: DialogAdd. not null: DialogEdit
   isOpen: boolean,
-  clusterList: Cluster[],
   screenTypeList: ScreenType[],
-  selectedClusterId: string,
   onClose: Function, // Call this to close Dialog
   onSave: Function, // Call this to close Dialog & refresh table
 }
 
 const DialogAddOrEditRoom: FunctionComponent<IDialogAddOrEditRoomProps> = (props) => {
-  const [roomInput, setRoomInput] = useState<RoomInput>({ name: '', clusterId: props.selectedClusterId, screenTypeIds: [], totalRows: 0, totalSeatsPerRow: 0 });
+  const [roomInput, setRoomInput] = useState<RoomInput>({ name: '', screenTypeIds: [], totalRows: 0, totalSeatsPerRow: 0 });
   const [isLoadingSave, setIsLoadingSave] = useState(false);
   const [errors, setErrors] = useState<RoomValidation>({ name: '', screenTypes: '', totalRows: '', totalSeatsPerRow: '' });
   const [requestError, setRequestError] = useState('');
 
   const onDialogEnter = () => {
     if (!props.roomToEdit) {
-      setRoomInput({ name: '', clusterId: props.selectedClusterId, screenTypeIds: [], totalRows: 0, totalSeatsPerRow: 0 });
+      setRoomInput({ name: '', screenTypeIds: [], totalRows: 0, totalSeatsPerRow: 0 });
     } else {
       setRoomInput({
         name: props.roomToEdit.name,
-        clusterId: props.selectedClusterId,
         screenTypeIds: props.roomToEdit.screenTypes.map(screenType => screenType.id),
         totalRows: props.roomToEdit.totalRows,
         totalSeatsPerRow: props.roomToEdit.totalSeatsPerRow,
@@ -154,21 +150,6 @@ const DialogAddOrEditRoom: FunctionComponent<IDialogAddOrEditRoomProps> = (props
 					Please fill those fields below to continue.
 				</DialogContentText>)
 		}
-        <FormControl style={{ margin: 10, marginBottom: 20, }} fullWidth>
-          {/* <InputLabel id="rate-select-label">Rate</InputLabel> */}
-          <FormLabel>Cluster:</FormLabel>
-          <Select
-            labelId="cluster-select-label"
-            value={roomInput.clusterId}
-            variant="outlined"
-            style={{ marginTop: 5, }}
-            onChange={(event) => {setRoomInput({...roomInput, clusterId: event.target.value as string})}}
-          >
-            {props.clusterList.map(cluster => (
-              <MenuItem key={cluster.id} value={cluster.id}>{cluster.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
         <TextField
 			error={errors.name.length > 0}
 			helperText={errors.name}

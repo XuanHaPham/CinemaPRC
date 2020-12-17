@@ -12,7 +12,6 @@ export interface Room {
 
 export interface RoomInput {
   name: string,
-  clusterId: string,
   screenTypeIds: string[],
   totalRows: number,
   totalSeatsPerRow: number,

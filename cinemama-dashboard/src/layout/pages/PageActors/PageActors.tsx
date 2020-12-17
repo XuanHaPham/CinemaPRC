@@ -32,19 +32,6 @@ const PageActors: FunctionComponent = () => {
   const columns: Array<Column<Actor>> = [
     { title: 'Id', field: 'id', editable: 'never', cellStyle: {width: '300px'} },
     { title: 'Name', field: 'name' },
-    {
-      title: 'Avatar',
-      field: 'avatar',
-      render: (rowData) => {
-        // const endAtDisplay = moment(rowData.endAt).format('DD/MM/YYYY');
-        return (
-          <img
-            src={rowData.avatar ? rowData.avatar : 'https://kansai-resilience-forum.jp/wp-content/uploads/2019/02/IAFOR-Blank-Avatar-Image-1.jpg'}
-            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '50%' }}
-          />
-        )
-      },
-    },
   ]
 
   useEffect(() => {
