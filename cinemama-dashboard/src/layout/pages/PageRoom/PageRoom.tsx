@@ -51,6 +51,7 @@ const PageRooms: FunctionComponent = () => {
 
   useEffect(() => {
     getScreenTypeList();
+    getAllRooms();
   }, []);
 
   const getScreenTypeList = () => {
@@ -63,6 +64,18 @@ const PageRooms: FunctionComponent = () => {
       })
   }
 
+  const getAllRooms = () => {
+    setIsTableLoading(true);
+    roomAPI.getAllRooms()
+      .then(response => {
+        setIsTableLoading(false);
+        setRooms(response.data);
+      })
+      .catch(err => {
+        setIsTableLoading(false);
+        console.log(err);
+      })
+  }
   const onAddClick = () => {
     setIsDialogAddOrEditOpen(true);
   }
@@ -83,6 +96,7 @@ const PageRooms: FunctionComponent = () => {
       .then((response) => {
         setIsLoadingDelete(false);
         closeDialogDelete();
+        getAllRooms();
       })
       .catch((err) => {
         setIsLoadingDelete(false);
@@ -162,6 +176,7 @@ const PageRooms: FunctionComponent = () => {
           }, 150);
 
           // getAllRooms();
+          getAllRooms();
         }}
       />
 

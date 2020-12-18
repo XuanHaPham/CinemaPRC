@@ -29,7 +29,7 @@ namespace cinema_core.Controllers
         }
         // GET: api/rooms
         [HttpGet]
-        public IActionResult Get(int skip=0,int limit=100000, int cluster=-1)
+        public IActionResult Get(int skip=0,int limit=100000)
 
         {
             if (limit <= 0)
@@ -37,7 +37,7 @@ namespace cinema_core.Controllers
                 var error = new Error() {message = "Limit must be greater than 0" };
                 return StatusCode(400, error);
             }
-            var rooms = roomRepository.GetAllRooms(skip,limit,cluster);
+            var rooms = roomRepository.GetAllRooms(skip,limit);
             return Ok(rooms);
         }
 

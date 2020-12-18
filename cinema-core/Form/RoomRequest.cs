@@ -20,7 +20,5 @@ namespace cinema_core.Form
         public int TotalRows { get; set; }
 
         public List<int> ScreenTypeIds { get; set; }
-
-        public int ClusterId { get; set; }
     }
 }

@@ -106,7 +106,7 @@ const PageShowtimes: FunctionComponent = () => {
   useEffect(() => {
     if (selectedClusterId !== '') {
       getAllShowtimesByClusterId();
-      getRoomListByCluster();
+      getRoomList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClusterId]);
@@ -147,8 +147,8 @@ const PageShowtimes: FunctionComponent = () => {
       })
   }
 
-  const getRoomListByCluster = () => {
-    roomAPI.getAllRoomsByClusterId(selectedClusterId)
+  const getRoomList = () => {
+    roomAPI.getAllRooms()
       .then(response => {
         setRoomList(response.data);
       })
