@@ -42,22 +42,6 @@ namespace cinema_core.Controllers
             }
         }
 
-        // GET: api/actors/5
-        [HttpGet("{id}", Name = "GetActor")]
-        [AllowAnonymous]
-        public IActionResult Get(int id)
-        {
-            try
-            {
-                var actor = actorRepository.GetActorById(id);
-                return Ok(actor);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         // POST: api/actors
         [HttpPost]
         [Authorize(Roles = Authorize.Admin)]

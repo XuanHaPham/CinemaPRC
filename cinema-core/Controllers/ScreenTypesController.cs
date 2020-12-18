@@ -35,53 +35,6 @@ namespace cinema_core.Controllers
             }
         }
 
-        // GET: api/screen-types/GetScreenTypesByMovieId/1
-        [HttpGet("[action]/{movieId}", Name = "GetScreenTypesByMovieId")]
-        [AllowAnonymous]
-        public IActionResult GetScreenTypesByMovieId(int movieId)
-        {
-            try
-            {
-                var screenTypes = screenTypeRepository.GetScreenTypesByMovieId(movieId);
-                return Ok(screenTypes);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(400, e.Message);
-            }
-        }
-
-        // GET: api/screen-types/GetScreenTypesByRoomId/1
-        [HttpGet("[action]/{roomId}", Name = "GetScreenTypesByRoomId")]
-        public IActionResult GetScreenTypesByRoomId(int roomId)
-        {
-            try
-            {
-                var screenTypes = screenTypeRepository.GetScreenTypesByRoomId(roomId);
-                return Ok(screenTypes);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        // GET: api/screen-types/5
-        [HttpGet("{id}", Name = "GetScreenType")]
-        [AllowAnonymous]
-        public IActionResult Get(int id)
-        {
-            try
-            {
-                var screenType = screenTypeRepository.GetScreenTypeById(id);
-                return Ok(screenType);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
         // POST: api/screen-types
         [HttpPost]
         [Authorize(Roles = Authorize.Admin)]

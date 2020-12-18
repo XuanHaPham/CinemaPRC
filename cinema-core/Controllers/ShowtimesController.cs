@@ -48,21 +48,6 @@ namespace cinema_core.Controllers
             return Ok(showtimes);
         }
 
-        // GET: api/showtimes/5
-        [HttpGet("{id}", Name = "GetShowtime")]
-        public IActionResult Get(int id)
-        {
-            var showtime = showtimeRepository.GetShowtimeById(id);
-            if (showtime == null)
-            {
-                return NotFound();
-            }
-            var showtimeDTO = new ShowtimeDTO(showtime);
-
-            List<string> seats = new List<string>();
-            return Ok(new { showtime = showtimeDTO,seats = seats});
-        }
-
         // POST: api/showtimes
         [HttpPost]
         [Authorize(Roles = Authorize.Admin + "," + Authorize.Staff)]

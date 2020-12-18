@@ -62,23 +62,6 @@ namespace cinema_core.Controllers
         }
 
         // GET: api/users/5
-        [HttpGet("{id}")]
-        [Authorize()]
-        public IActionResult Get(int id)
-        {
-            var username = Constants.GetUsername(Request);
-            try
-            {
-                var user = userRepository.GetUserById(id);
-                return Ok(new UserDTO(user));
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        // GET: api/users/5
         [HttpPut("[action]")]
         [Authorize(Roles =Authorize.Admin)]
         public IActionResult UpdateRole([FromBody] UpdateRoleRequest updateRequest)
@@ -87,34 +70,6 @@ namespace cinema_core.Controllers
             try
             {
                 var user = userRepository.UpdateRole(updateRequest);
-                return Ok(user);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        [HttpPut("{id}")]
-        [Authorize()]
-        public IActionResult UpdateInformation(int id,[FromBody] UserRequest userRequest)
-        {
-
-            try
-            {
-                string username = Constants.GetUsername(Request);
-                var isExist = userRepository.GetUserById(id);
-                if (isExist.Username != username) throw new CustomException(HttpStatusCode.BadRequest, "can not update on different user");
-                if (!passwordHasher.PasswordMatches(userRequest.Password, isExist.Password))
-                {
-                    var pwd = userRequest.Password;
-                    userRequest.Password = passwordHasher.HashPassword(pwd);
-                }
-                else
-                {
-                    userRequest.Password = isExist.Password;
-                }
-                var user = userRepository.UpdateUser(id, userRequest);
                 return Ok(user);
             }
             catch (Exception e)

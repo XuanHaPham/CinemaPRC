@@ -54,21 +54,21 @@ const App: React.FC = () => {
 
   const checkTokenLoggedIn = () => {
     const tokenStr = localStorage.getItem('token');
-    // if (tokenStr) {
-    //   authAPI.checkToken(tokenStr)
-    //     .then(response => {
-    //       if (response.data.isValid === true) {
-    //         setAuthContextFunc(tokenStr);
-    //       } else {
-    //         localStorage.removeItem('token');
-    //       }
-    //     })
-    //     .catch(err => {
-    //       localStorage.removeItem('token');
-    //     })
-    // } else {
-    //   localStorage.removeItem('token');
-    // }
+    if (tokenStr) {
+      authAPI.checkToken(tokenStr)
+        .then(response => {
+          if (response.data.isValid === true) {
+            setAuthContextFunc(tokenStr);
+          } else {
+            localStorage.removeItem('token');
+          }
+        })
+        .catch(err => {
+          localStorage.removeItem('token');
+        })
+    } else {
+      localStorage.removeItem('token');
+    }
     localStorage.removeItem('token');
   }
 

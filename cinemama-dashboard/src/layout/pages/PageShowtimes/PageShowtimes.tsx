@@ -29,7 +29,6 @@ import DialogYesNo from '../../../components/DialogYesNo';
 
 const PageShowtimes: FunctionComponent = () => {
   const [showtimes, setShowtimes] = useState<Array<Showtime>>([]);
-  const [selectedClusterId, setSelectedClusterId] = useState<string>('');
   const [movieList, setMovieList] = useState<Array<Movie>>([]);
   const [roomList, setRoomList] = useState<Array<Room>>([]);
   const [screenTypeList, setScreenTypeList] = useState<Array<ScreenType>>([]);
@@ -97,36 +96,15 @@ const PageShowtimes: FunctionComponent = () => {
   ]
 
   useEffect(() => {
-    // getAllShowtimes();
+    getAllShowtimes();
     getMovieList();
-    // getRoomList();
+    getRoomList();
     getScreenTypeList();
   }, []);
-
-  useEffect(() => {
-    if (selectedClusterId !== '') {
-      getAllShowtimesByClusterId();
-      getRoomList();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedClusterId]);
   
-  // const getAllShowtimes = () => {
-  //   setIsTableLoading(true);
-  //   showtimeAPI.getAllShowtimes()
-  //     .then(response => {
-  //       setIsTableLoading(false);
-  //       setShowtimes(response.data);
-  //     })
-  //     .catch(err => {
-  //       setIsTableLoading(false);
-  //       console.log(err);
-  //     })
-  // }
-
-  const getAllShowtimesByClusterId = () => {
+  const getAllShowtimes = () => {
     setIsTableLoading(true);
-    showtimeAPI.getAllShowtimesByClusterId(selectedClusterId)
+    showtimeAPI.getAllShowtimes()
       .then(response => {
         setIsTableLoading(false);
         setShowtimes(response.data);
@@ -197,7 +175,7 @@ const PageShowtimes: FunctionComponent = () => {
       .then((response) => {
         setIsLoadingDelete(false);
         closeDialogDelete();
-        getAllShowtimesByClusterId();
+        getAllShowtimes();
       })
       .catch((err) => {
         setIsLoadingDelete(false);
@@ -240,17 +218,6 @@ const PageShowtimes: FunctionComponent = () => {
 
             return <MTableAction {...prevProps} />
           },
-          Toolbar: prevProps => {
-            return (
-              <div>
-                <MTableToolbar {...prevProps} />
-
-                <div style={{display: 'flex', alignItems: 'center', paddingLeft: '24px', marginBottom: '12px'}}>
-                  <div style={{marginRight: '10px', fontWeight: 'bold', fontSize: '16px', color: '#333'}}>Cluster:</div>
-                </div>
-              </div>
-            )
-          }
         }}
       />
 
@@ -278,7 +245,7 @@ const PageShowtimes: FunctionComponent = () => {
             setShowtimeToEdit(null);
           }, 150);
 
-          getAllShowtimesByClusterId();
+          getAllShowtimes();
         }}
       />
 

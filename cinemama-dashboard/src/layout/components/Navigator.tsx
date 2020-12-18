@@ -36,8 +36,8 @@ const categories = [
   {
     id: 'Theater',
     children: [
-      { id: 'Screen Types', icon: <IconAspectRatio />, path: '/screen-types', requiredRoles: ['Admin'] },
       { id: 'Movies', icon: <IconMovie />, path: '/movies', requiredRoles: ['Admin'] },
+      { id: 'Screen Types', icon: <IconAspectRatio />, path: '/screen-types', requiredRoles: ['Admin'] },
       { id: 'Actors', icon: <IconPeople />, path: '/actors', requiredRoles: ['Admin'] },
       { id: 'Rooms', icon: <IconMeetingRoom />, path: '/rooms', requiredRoles: ['Admin'] },
       { id: 'Showtimes', icon: <IconMovie />, path: '/showtimes', requiredRoles: ['Admin', 'Staff'] },

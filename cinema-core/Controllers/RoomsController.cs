@@ -41,17 +41,6 @@ namespace cinema_core.Controllers
             return Ok(rooms);
         }
 
-        // GET: api/rooms/5
-        [HttpGet("{id}", Name = "GetRoom")]
-        public IActionResult Get(int id)
-        {
-            var room = roomRepository.GetRoomById(id);
-            if (room == null)
-                return NotFound();
-            var roomDTO = new RoomDTO(room);
-            return Ok(roomDTO);
-        }
-
         // POST: api/rooms
         [HttpPost]
         [Authorize(Roles = Authorize.Admin)]

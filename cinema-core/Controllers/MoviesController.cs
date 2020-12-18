@@ -41,39 +41,6 @@ namespace cinema_core.Controllers
             return Ok(movie);
         }
 
-        // GET: api/movies/now-on
-        [HttpGet("[action]")]
-        public IActionResult GetAllMoviesNowOn()
-        {
-            var movie = movieRepository.GetAllMoviesNowOn();
-            return Ok(movie);
-        }
-
-        // GET: api/movies/now-on
-        [HttpGet("[action]")]
-        public IActionResult GetAllMoviesComing(int day=30)
-        {
-            if (day <= 0)
-            {
-                Error error = new Error() { message = "Query coming day must be greater than 0" };
-                return StatusCode(400, error);
-            }
-            var movie = movieRepository.GetAllMoviesComing(day);
-            return Ok(movie);
-        }
-
-        // GET: api/rooms/5
-        [HttpGet("{id}", Name = "GetMovie")]
-        public IActionResult Get(int id)
-        {
-            var movie = movieRepository.GetMovieById(id);
-            if (movie == null)
-                return NotFound();
-            var movieDTO = new MovieDTO(movie);
-            return Ok(movieDTO);
-        }
-
-
         // POST: api/movies
         [HttpPost]
         [Authorize(Roles = Authorize.Admin)]
