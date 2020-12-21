@@ -72,7 +72,7 @@ namespace cinema_core.Controllers
                 var error = new Error() { message = "Showtime went oopsie when creating" };
                 return StatusCode(400, error);
             }
-            return RedirectToRoute("GetShowtime", new { id = showtime.Id });
+            return Ok(new ShowtimeDTO(showtime));
         }
 
         // POST: api/showtimes
