@@ -57,7 +57,7 @@ namespace cinema_core.Controllers
                 var error = new Error() { message = "Something went wrong when save movie" };
                 return StatusCode(400, error);
             }
-            return RedirectToRoute("GetMovie", new { id = movie.Id });
+            return Ok(new MovieDTO(movie));
         }
 
         // POST: api/rooms

@@ -60,7 +60,7 @@ namespace cinema_core.Controllers
                 var error = new Error() { message = "Something went wrong when save room" };
                 return StatusCode(400, error);
             }
-            return RedirectToRoute("GetRoom", new { id = room.Id });
+            return Ok(new RoomDTO(room));
         }
 
         // POST: api/rooms
